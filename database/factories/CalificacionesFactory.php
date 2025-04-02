@@ -17,7 +17,6 @@ class CalificacionesFactory extends Factory
             'alumno_id' => null,
             'materia_id' => null,
             'calificacion' => $this->faker->randomFloat(1, 5, 10),
-            'fecha' => $this->faker->date(),
         ];
     }
 }
