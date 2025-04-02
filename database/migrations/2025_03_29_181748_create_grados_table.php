@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('grados', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_grado');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

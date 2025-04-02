@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('grupo_id')->constrained('grupos')->onDelete('cascade');
             $table->foreignId('padre_id')->nullable()->constrained('padres')->onDelete('set null');
             $table->foreignId('ciclo_id')->nullable()->constrained('ciclos')->onDelete('set null');
+            $table->boolean('activo')->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->unique(['curp', 'grupo_id']);

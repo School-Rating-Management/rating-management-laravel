@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreignId('grupo_id')->constrained('grupos')->onDelete('cascade');
             $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
             $table->decimal('calificacion', 5, 2)->nullable();
-            $table->date('fecha_calificacion')->nullable();
-            $table->timestamp('fecha_cambio')->useCurrent();
             $table->timestamps();
         });
     }

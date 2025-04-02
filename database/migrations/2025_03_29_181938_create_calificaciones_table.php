@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('alumno_id')->constrained('alumnos')->onDelete('cascade');
             $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
-            $table->decimal('calificacion', 5, 2)->check('calificacion BETWEEN 1 AND 10');
-            $table->date('fecha')->nullable();
+            $table->decimal('calificacion', 5, 2)->check('calificacion BETWEEN 1 AND 10')->nullable();
+            
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre_grupo');
             $table->foreignId('profesor_id')->unique()->constrained('profesores')->onDelete('cascade');
             $table->foreignId('grado_id')->constrained('grados')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
