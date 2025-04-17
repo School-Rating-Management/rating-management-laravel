@@ -154,6 +154,7 @@ class DatabaseSeeder extends Seeder
             Padres::factory()->create([
                 'nombre' => $user->name,
                 'apellido' => $user->apellido,
+                'correo' => $user->email,
                 'user_id' => $user->id,
             ]);
         });
