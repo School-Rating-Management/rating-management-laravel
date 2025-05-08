@@ -148,7 +148,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('✅ Grupos creados: ' . $grupos->count());
 
         // Crear padres
-        User::factory(200)->create([
+        User::factory(100)->create([
             'role' => 'padre',
         ])->each(function ($user) {
             Padres::factory()->create([
@@ -165,16 +165,24 @@ class DatabaseSeeder extends Seeder
         }
         $this->command->info('✅ Padres creados: ' . $padres->count());
 
-
+        $padreIndex = 0;
+        $padresCount = $padres->count();
         // Crear alumnos y asignarles un padre, un grupo y un ciclo, todos unicos
         foreach ($this->gradosSeeder as $grado) {
             foreach ($this->gruposSeeder as $grupo) {
                 foreach ($this->ciclosSeeder as $ciclo) {
+                                // Obtener padre de la lista secuencialmente
+                    if($padreIndex >= $padresCount){
+                        $padreIndex = 0;
+                    }
+                    $padre = $padres[$padreIndex];
+
                     $alumno = Alumnos::factory()->create([
                         'grupo_id' => Grupos::where('nombre_grupo', $grado . '-' . $grupo)->first()->id,
-                        'padre_id' => Padres::inRandomOrder()->first()->id,
+                        'padre_id' => $padre->id,
                         'ciclo_id' => Ciclos::where('nombre', $ciclo)->first()->id,
                     ]);
+                    $padreIndex++;
                     // Crear calificaciones y asignarles un alumno, una materia.
                     foreach ($this->materiasSeeder as $materia) {
                         Calificaciones::factory()->create([
@@ -191,6 +199,7 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+
 
         $alumnos = Alumnos::all();
         if($alumnos->isEmpty()){

@@ -13,12 +13,12 @@ class Grados extends Model
 
     public function grupos()
     {
-        return $this->hasMany(Grupos::class);
+        return $this->hasMany(Grupos::class, 'grado_id', 'id');
     }
 
     public function materias()
     {
-        return $this->belongsToMany(Materias::class, 'materias_grados');
+        return $this->belongsToMany(Materias::class, 'materias_grados', 'grado_id', 'materia_id');
     }
 
     public function historialAlumnos()

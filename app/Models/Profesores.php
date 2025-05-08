@@ -19,6 +19,6 @@ class Profesores extends Model
 
     public function grupo()
     {
-        return $this->hasOne(Grupos::class);
+        return $this->hasOne(Grupos::class, 'profesor_id');
     }
 }

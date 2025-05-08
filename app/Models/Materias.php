@@ -13,7 +13,7 @@ class Materias extends Model
 
     public function grados()
     {
-        return $this->belongsToMany(Grados::class, 'materias_grados');
+        return $this->belongsToMany(Grados::class, 'materias_grados', 'materia_id', 'grado_id');
     }
 
     public function calificaciones()

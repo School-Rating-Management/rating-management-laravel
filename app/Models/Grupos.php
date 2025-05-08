@@ -13,17 +13,17 @@ class Grupos extends Model
 
     public function profesor()
     {
-        return $this->belongsTo(Profesores::class);
+        return $this->belongsTo(Profesores::class, 'profesor_id');
     }
 
     public function grados()
     {
-        return $this->belongsTo(Grados::class);
+        return $this->belongsTo(Grados::class, 'grado_id');
     }
 
     public function alumnos()
     {
-        return $this->hasMany(Alumnos::class);
+        return $this->hasMany(Alumnos::class, 'grupo_id', 'id');
     }
 
     public function historialAlumnos()

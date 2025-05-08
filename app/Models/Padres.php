@@ -18,6 +18,6 @@ class Padres extends Model
 
     public function alumnos()
     {
-        return $this->hasMany(Alumnos::class);
+        return $this->hasMany(Alumnos::class, 'padre_id', 'id');
     }
 }

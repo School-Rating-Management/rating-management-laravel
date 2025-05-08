@@ -13,7 +13,7 @@ class Alumnos extends Model
 
     public function grupo()
     {
-        return $this->belongsTo(Grupos::class);
+        return $this->belongsTo(Grupos::class, 'grupo_id');
     }
 
     public function padre()
@@ -28,11 +28,11 @@ class Alumnos extends Model
 
     public function calificaciones()
     {
-        return $this->hasMany(Calificaciones::class);
+        return $this->hasMany(Calificaciones::class, 'alumno_id', 'id');
     }
 
     public function historial()
     {
-        return $this->hasMany(HistorialAlumnos::class);
+        return $this->hasMany(HistorialAlumnos::class, 'alumno_id', 'id');
     }
 }

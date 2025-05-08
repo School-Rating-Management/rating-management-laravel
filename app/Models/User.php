@@ -20,18 +20,27 @@ class User extends Authenticatable
         'role',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'role' => UserRole::class,
     ];
 
+    public function is($role)
+    {
+        return $this->role === $role;
+    }
     public function padre()
     {
-        return $this->hasOne(Padres::class);
+        return $this->hasOne(Padres::class, 'user_id');
     }
 
     public function profesor()
     {
-        return $this->hasOne(Profesores::class);
+        return $this->hasOne(Profesores::class, 'user_id');
     }
 }
