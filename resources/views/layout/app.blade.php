@@ -8,12 +8,12 @@
 </head>
 <body class="bg-linear-to-r from-cyan-500 to-blue-500">
 
-   <!-- Navbar -->
+    {{-- Navbar --}}
     <nav class="bg-gradient-to-r from-cyan-600/10 to-blue-600/10 text-white shadow-lg" x-data="{ open: false }">
         <div class="container mx-auto p-4 flex justify-between items-center">
             <a href="{{ route('welcome') }}" class="font-bold text-lg">Ignacio Lopez Rayon</a>
 
-            <!-- Botón hamburguesa (solo visible en pantallas pequeñas) -->
+             {{-- Botón hamburguesa (solo visible en pantallas pequeñas)  --}}
             <button class="md:hidden text-2xl focus:outline-none" @click="open = !open">
                 ☰
             </button>
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <!-- Menú desplegable en móviles -->
+        {{-- Menu desplegable en movil --}}
         <div class="md:hidden px-4 pb-4" x-show="open" x-transition>
             @auth
                 <p class="mb-2">Hola, {{ auth()->user()->name }}</p>
@@ -49,7 +49,7 @@
 
 
 
-    <!-- Contenido -->
+    {{-- Contenido principal --}}
     <main class="container mx-auto mt-4 p-4">
         @yield('content')
     </main>

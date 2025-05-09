@@ -40,8 +40,8 @@ class LoginController extends Controller
     }
 
     if (Auth::attempt($credentials, $remember)) {
-        // $request->session()->regenerate();
-        // $user = Auth::user();
+        $request->session()->regenerate();
+        $user = Auth::user();
         // dd($user);
         return $this->redirectTo($user);
     }
@@ -53,8 +53,8 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('welcome');
     }
@@ -63,7 +63,7 @@ class LoginController extends Controller
 
         switch ($user->role) {
             case UserRole::ADMIN:
-                return redirect()->route('admin.home');
+                return redirect()->route('admin.panel');
             case UserRole::PROFESOR:
                 return redirect()->route('profesor.home');
             case UserRole::PADRE:

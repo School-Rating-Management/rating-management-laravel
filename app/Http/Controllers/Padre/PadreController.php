@@ -14,7 +14,8 @@ class PadreController extends Controller
         $padre = Auth::user()->padre;
 
         if (!$padre) {
-            abort(403, 'No tienes permiso para acceder a esta sección');
+            // abort(403, 'No tienes permiso para acceder a esta sección');
+            return redirect()->route('login')->with('error', 'No tienes acceso a esta sección');
         }
 
         $alumnos = $padre->alumnos()->with(['grupo', 'ciclo'])->get(); // opcional: cargar relaciones

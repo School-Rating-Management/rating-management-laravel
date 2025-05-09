@@ -109,6 +109,22 @@ class DatabaseSeeder extends Seeder
         }
         $this->command->info('✅ Materias creadas: ' . $materias->count());
 
+        // Crear usuarios con rol de admin
+        User::factory(1)->create([
+            'role' => 'admin',
+        ])->each(function ($user) {
+            $user->update([
+                'name' => 'Admin',
+                'apellido' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('admin123'),
+            ]);
+        });
+        $admin = User::where('role', 'admin')->first();
+        if(is_null($admin)){
+            $this->command->info('❌ No se ha creado el admin.');
+            return;
+        }
         // Crear usuarios con rol de profesor
         User::factory(18)->create([
             'role' => 'profesor',
