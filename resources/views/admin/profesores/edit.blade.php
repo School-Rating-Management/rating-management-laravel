@@ -63,7 +63,7 @@
                     @foreach ($gruposDisponibles as $grupo)
                         <option value="{{ $grupo->id }}"
                             {{ old('grupo_id', optional($profesor->grupo)->id) == $grupo->id ? 'selected' : '' }}>
-                            {{ $grupo->nombre }}
+                            {{ $grupo->nombre_grupo }}
                         </option>
                     @endforeach
                 </select>
@@ -73,8 +73,10 @@
                     class="block appearance-none w-full border-2 border-white border-b-blue-500 hover:border-b-blue-800 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline focus:border-b-blue-800">
                     <option value="">-- Selecciona un grupo --</option>
                     @foreach ($gruposDisponibles as $grupo)
-                       <option value="{{ $grupo->id }}"
-                            {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                    <option value="{{ $grupo->id }}"
+                        {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                        {{ $grupo->nombre_grupo }}
+                    </option>
                     @endforeach
                 </select>
             @else

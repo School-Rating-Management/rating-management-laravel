@@ -9,6 +9,7 @@ use App\Models\Profesores;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProfesorController extends Controller
 {
@@ -44,9 +45,15 @@ class ProfesorController extends Controller
     return view('admin.profesores.show', compact('profesor'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $profesores = Profesores::all(); // Activas
+         $search = $request->get('search');
+
+        // Si hay búsqueda, filtra por nombre o apellido
+        $profesores = Profesores::when($search, function ($query) use ($search) {
+            return $query->where('nombre', 'like', '%' . $search . '%')
+                        ->orWhere('apellido', 'like', '%' . $search . '%');
+        })->get();
         return view('admin.profesores.index', compact('profesores'))->with('status', 'activos');
     }
 
@@ -155,10 +162,23 @@ class ProfesorController extends Controller
 
     public function forceDelete($id)
     {
+        // Buscar al profesor que ha sido "soft deleted"
         $profesor = Profesores::onlyTrashed()->findOrFail($id);
+
+        // Buscar al usuario asociado al profesor, incluyendo aquellos eliminados suavemente
+        $user = $profesor->user()->withTrashed()->first();
+
+        // Eliminar al usuario permanentemente
+        if ($user) {
+            $user->forceDelete();
+        }
+
+        // Eliminar al profesor permanentemente
         $profesor->forceDelete();
-        return redirect()->route('profesores.inactivos')->with('success', 'Profesor eliminado permanentemente.');
+
+        return redirect()->route('profesores.inactivos')->with('success', 'Profesor y usuario eliminados permanentemente.');
     }
+
 
     public function asignarGrupo($id)
     {
@@ -200,14 +220,15 @@ class ProfesorController extends Controller
         // Crear el usuario primero
         $user = User::create([
             'name' => $request->name,
+            'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => UserRole::PROFESOR, // Enum
+            'role' => UserRole::PROFESOR,
         ]);
 
         // Crear el profesor usando la misma info
         $profesor = Profesores::create([
-            'nombre' => $request->name, // misma info que el usuario
+            'nombre' => $request->name,
             'apellido' => $request->apellido,
             'user_id' => $user->id,
         ]);

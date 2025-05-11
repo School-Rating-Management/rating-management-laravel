@@ -62,7 +62,7 @@
                 </section>
             </div>
         @else
-            <p class="text-red-600">No tienes un grupo asignado aún.</p>
+            <p class="text-red-600 text-center">No tienes un grupo asignado aún.</p>
         @endif
     </div>
 </div>
