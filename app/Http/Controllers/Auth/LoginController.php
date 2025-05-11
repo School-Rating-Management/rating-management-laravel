@@ -30,6 +30,8 @@ class LoginController extends Controller
 
     // check that the user isn't deleted
     $user = User::where('email', $credentials['email'])->first();
+
+    // Check if the user is soft deleted
     if ($user && $user->trashed()) {
         return back()->with('error', 'Tu cuenta ha sido desactivada. Contacta al administrador.');
     }

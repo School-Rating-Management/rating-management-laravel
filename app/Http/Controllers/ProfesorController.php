@@ -56,10 +56,100 @@ class ProfesorController extends Controller
         return view('admin.profesores.index', compact('profesores'))->with('status', 'inactivos');
     }
 
+    public function edit($id)
+    {
+        $profesor = Profesores::withTrashed()->findOrFail($id);
+        $grupoActual = $profesor->grupo;
+
+        $gruposDisponibles = Grupos::whereNull('profesor_id')
+            ->when($grupoActual, fn($query) => $query->orWhere('id', $grupoActual->id))
+            ->get();
+
+        return view('admin.profesores.edit', compact('profesor', 'gruposDisponibles'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'grupo_id' => 'nullable|exists:grupos,id',
+        ]);
+
+        $profesor = Profesores::withTrashed()
+            ->with(['user' => fn($q) => $q->withTrashed()])->findOrFail($id);
+
+        $profesor->update($request->only('nombre', 'apellido'));
+
+        $user = $profesor->user;
+        if ($user) {
+            $user->name = $request->nombre . ' ' . $request->apellido;
+            $user->save();
+        }
+
+        // Quitar grupo actual si se dejó vacío
+        if (is_null($request->grupo_id) && $profesor->grupo) {
+            $profesor->grupo->profesor_id = null;
+            $profesor->grupo->save();
+        }
+
+        // Asignar nuevo grupo
+        if ($request->filled('grupo_id')) {
+            $grupoNuevo = Grupos::find($request->grupo_id);
+
+            // Quitar grupo anterior si es distinto
+            if ($profesor->grupo && $profesor->grupo->id !== $grupoNuevo->id) {
+                $profesor->grupo->profesor_id = null;
+                $profesor->grupo->save();
+            }
+
+            $grupoNuevo->profesor_id = $profesor->id;
+            $grupoNuevo->save();
+        }
+        if ($request->has('activo')) {
+            // Activar si está desactivado
+            if ($profesor->trashed()) {
+                $profesor->restore();
+                if ($profesor->user && $profesor->user->trashed()) {
+                    $profesor->user->restore();
+                }
+            }
+        } else {
+            // Desactivar si está activo
+            if (!$profesor->trashed()) {
+                $profesor->delete();
+                if ($profesor->user && !$profesor->user->trashed()) {
+                    $profesor->user->delete();
+                }
+            }
+        }
+
+        return redirect()->route('profesores.index')->with('success', 'Profesor actualizado correctamente.');
+    }
+
+
+
+    public function destroy($id)
+    {
+        $profesor = Profesores::findOrFail($id);
+        $user = $profesor->user;
+
+        $profesor->delete();
+        $user->delete(); // También desactivar el usuario
+
+        return redirect()->route('profesores.index')->with('success', 'Profesor inactivado exitosamente.');
+    }
+
     public function restore($id)
     {
         $profesor = Profesores::onlyTrashed()->findOrFail($id);
+        $user = $profesor->user()->withTrashed()->first();
+
         $profesor->restore();
+        if ($user->trashed()) {
+            $user->restore();
+        }
+
         return redirect()->route('profesores.index')->with('success', 'Profesor restaurado exitosamente.');
     }
 
@@ -101,29 +191,29 @@ class ProfesorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
             'grupo_id' => 'nullable|exists:grupos,id',
         ]);
 
-        // Crear el usuario
+        // Crear el usuario primero
         $user = User::create([
             'name' => $request->name,
+            'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => UserRole::PROFESOR, // Enum
         ]);
 
-        // Crear el profesor
+        // Crear el profesor usando la misma info
         $profesor = Profesores::create([
-            'nombre' => $request->nombre,
+            'nombre' => $request->name, // misma info que el usuario
             'apellido' => $request->apellido,
             'user_id' => $user->id,
         ]);
 
-        // Asignar grupo si se seleccionó
+        // Asignar grupo si fue seleccionado
         if ($request->filled('grupo_id')) {
             $grupo = Grupos::find($request->grupo_id);
             $grupo->profesor_id = $profesor->id;
@@ -132,5 +222,6 @@ class ProfesorController extends Controller
 
         return redirect()->route('profesores.index')->with('success', 'Profesor creado correctamente.');
     }
+
 
 }

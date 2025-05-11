@@ -48,13 +48,15 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('materias', MateriaController::class);
 
 
+    // Primero el resource (crea todas las rutas básicas)
     Route::get('/profesores/inactivos', [ProfesorController::class, 'inactivos'])->name('profesores.inactivos');
+    Route::resource('profesores', ProfesorController::class);
+
+    // Luego las personalizadas
     Route::post('/profesores/{id}/restore', [ProfesorController::class, 'restore'])->name('profesores.restore');
     Route::delete('/profesores/{id}/delete', [ProfesorController::class, 'forceDelete'])->name('profesores.forceDelete');
-    Route::get('/profesores/{id}', [ProfesorController::class, 'show'])->name('profesores.show');
     Route::get('/profesores/{id}/asignar-grupo', [ProfesorController::class, 'asignarGrupo'])->name('profesores.asignarGrupo');
     Route::post('/profesores/{id}/guardar-grupo', [ProfesorController::class, 'guardarGrupo'])->name('profesores.guardarGrupo');
-    Route::resource('profesores', ProfesorController::class);
 
     Route::resource('ciclos', CicloController::class);
 });

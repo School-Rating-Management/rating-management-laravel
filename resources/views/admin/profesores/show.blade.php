@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.panel')
 
 @section('title', 'Detalles del Profesor')
 
