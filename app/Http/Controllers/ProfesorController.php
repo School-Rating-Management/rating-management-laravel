@@ -47,7 +47,7 @@ class ProfesorController extends Controller
 
     public function index(Request $request)
     {
-         $search = $request->get('search');
+        $search = $request->get('search');
 
         // Si hay búsqueda, filtra por nombre o apellido
         $profesores = Profesores::when($search, function ($query) use ($search) {

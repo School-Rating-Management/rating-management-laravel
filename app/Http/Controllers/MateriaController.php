@@ -13,9 +13,14 @@ class MateriaController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $materias = Materias::all(); // Activas
+        $search = $request->get('search');
+
+        // Si hay búsqueda, filtra por nombre
+        $materias = Materias::when($search, function ($query) use ($search) {
+            return $query->where('nombre_materia', 'like', '%' . $search . '%');
+        })->get();
         return view('admin.materias.index', compact('materias'))->with('status', 'activas');
     }
 

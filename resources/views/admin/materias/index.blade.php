@@ -39,6 +39,21 @@
     {{-- Aquí solo va el contenido de materias sin sidebar --}}
     <h2 class="text-2xl font-bold mb-4">📘 Materias {{ $status }}</h2>
 
+        <!-- Formulario de búsqueda -->
+    <div class="mb-4">
+        <form action="{{ route('materias.index') }}" method="GET"
+        class="flex items-center space-x-2">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Buscar por nombre de la materia"
+                class="px-4 py-2 border rounded w-full"
+            />
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">Buscar</button>
+        </form>
+    </div>
+
     <div class="mb-4 space-x-2">
         <a href="{{ route('materias.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded">Ver Activas</a>
         <a href="{{ route('materias.inactivas') }}" class="px-4 py-2 bg-gray-600 text-white rounded">Ver Inactivas</a>
