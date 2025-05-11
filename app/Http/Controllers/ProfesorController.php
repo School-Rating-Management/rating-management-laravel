@@ -200,7 +200,6 @@ class ProfesorController extends Controller
         // Crear el usuario primero
         $user = User::create([
             'name' => $request->name,
-            'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => UserRole::PROFESOR, // Enum

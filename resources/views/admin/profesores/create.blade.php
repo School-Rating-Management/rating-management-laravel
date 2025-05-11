@@ -4,6 +4,16 @@
 
 @section('content')
 <div class="container mx-auto p-6">
+    @if ($errors->any())
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <strong>Ups!</strong> Hubo algunos problemas con los datos ingresados.
+            <ul class="mt-2 list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <h2 class="text-2xl font-bold mb-6">Crear Profesor</h2>
 
     <form action="{{ route('profesores.store') }}" method="POST" class="bg-white p-6 rounded shadow-md">
@@ -49,9 +59,12 @@
                 <select name="grupo_id" id="grupo_id" class="mt-1 block w-full border-2 border-white border-b-blue-500 rounded shadow-sm focus:border-b-blue-800 focus:outline-none">
                     <option value="">-- Selecciona un grupo --</option>
                     @foreach($gruposDisponibles as $grupo)
-                        <option value="{{ $grupo->id }}">{{ $grupo->nombre_grupo }}</option>
+                        <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                            {{ $grupo->nombre_grupo }}
+                        </option>
                     @endforeach
                 </select>
+
             @endif
         </div>
 
