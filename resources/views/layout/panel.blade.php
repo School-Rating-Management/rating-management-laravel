@@ -55,6 +55,8 @@
                     <li><a href="{{ route('materias.index') }}" class="block text-blue-700 hover:underline">📘 Materias</a></li>
                     <li><a href="{{ route('profesores.index') }}" class="block text-blue-700 hover:underline">👨‍🏫 Profesores</a></li>
                     <li><a href="{{ route('ciclos.index') }}" class="block text-blue-700 hover:underline">📅 Ciclos</a></li>
+                    <li><a href="{{ route('grados.index') }}" class="block text-blue-700 hover:underline"> Grados </a></li>
+                    <li><a href="{{ route('grupos.index') }}" class="block text-blue-700 hover:underline"> Grupos </a></li>
                 </ul>
             </nav>
         </aside>

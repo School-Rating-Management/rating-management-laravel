@@ -4,6 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CicloController;
+use App\Http\Controllers\GradoController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\Padre\PadreController;
 use App\Http\Controllers\ProfesorController;
@@ -42,21 +44,33 @@ Route::get('/profesor/alumno/{alumno}', [AlumnoController::class, 'showAlumno'])
     ->middleware(['auth']);
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
+    // Materias: Rutas para ver inactivos, restaurar y eliminar permanentemente
     Route::get('/materias/inactivas', [MateriaController::class, 'inactivas'])->name('materias.inactivas');
     Route::post('/materias/{id}/restore', [MateriaController::class, 'restore'])->name('materias.restore');
     Route::delete('/materias/{id}/delete', [MateriaController::class, 'forceDelete'])->name('materias.forceDelete');
     Route::resource('materias', MateriaController::class);
 
 
-    // Primero el resource (crea todas las rutas básicas)
+    // Profesores: Rutas para ver inactivos, restaurar y eliminar permanentemente
     Route::get('/profesores/inactivos', [ProfesorController::class, 'inactivos'])->name('profesores.inactivos');
-    Route::resource('profesores', ProfesorController::class);
 
-    // Luego las personalizadas
+    Route::resource('profesores', ProfesorController::class);
     Route::post('/profesores/{id}/restore', [ProfesorController::class, 'restore'])->name('profesores.restore');
     Route::delete('/profesores/{id}/delete', [ProfesorController::class, 'forceDelete'])->name('profesores.forceDelete');
     Route::get('/profesores/{id}/asignar-grupo', [ProfesorController::class, 'asignarGrupo'])->name('profesores.asignarGrupo');
     Route::post('/profesores/{id}/guardar-grupo', [ProfesorController::class, 'guardarGrupo'])->name('profesores.guardarGrupo');
+
+    // Grados: Rutas para ver inactivos, restaurar y eliminar permanentemente
+    Route::get('/grados/inactivos', [GradoController::class, 'inactivos'])->name('grados.inactivos');
+    Route::post('/grados/{id}/restore', [GradoController::class, 'restore'])->name('grados.restore');
+    Route::delete('/grados/{id}/delete', [GradoController::class, 'forceDelete'])->name('grados.forceDelete');
+    Route::resource('grados', GradoController::class);
+
+    // Grupos: Rutas para ver inactivos, restaurar y eliminar permanentemente
+    Route::get('/grupos/inactivos', [GrupoController::class, 'inactivas'])->name('grupos.inactivas');
+    Route::post('/grupos/{id}/restore', [GrupoController::class, 'restore'])->name('grupos.restore');
+    Route::delete('/grupos/{id}/delete', [GrupoController::class, 'forceDelete'])->name('grupos.forceDelete');
+    Route::resource('grupos', GrupoController::class);
 
     Route::resource('ciclos', CicloController::class);
 });
