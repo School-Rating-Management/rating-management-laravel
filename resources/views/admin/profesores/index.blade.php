@@ -62,9 +62,9 @@
     </div>
 
     <div class="mb-4 bg-white/50 shadow rounded p-6">
-        <ul class="divide-y">
+        <ul class="divide-y divide-gray-400">
             @forelse($profesores as $profesor)
-            <li class="py-2 flex justify-between items-center">
+            <li class="py-2 flex justify-between items-center hover:bg-gray-100 p-2">
                 <a href="{{ route('profesores.show', $profesor->id) }}"
                 class="flex-1 text-blue-800 font-bold hover:underline truncate">
                     {{ $profesor->nombre }} {{ $profesor->apellido }}
