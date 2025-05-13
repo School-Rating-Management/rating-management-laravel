@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
 use App\Models\Alumnos;
+use App\Models\Calificaciones;
 use App\Models\Grupos;
+use App\Models\Materias;
 use App\Models\Profesores;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +32,59 @@ class ProfesorController extends Controller
         return view('profesor.home', compact('profesor', 'grupo', 'alumnos', 'materias'));
     }
 
+    public function verMateria($id)
+    {
+        $profesor = Auth::user()->profesor;
+
+        if (!$profesor) {
+            return redirect()->route('login')->with('error', 'No tienes acceso a esta sección');
+        }
+
+        $grupo = $profesor->grupo;
+        if (!$grupo) {
+            return redirect()->back()->with('error', 'No tienes grupo asignado');
+        }
+
+        $materia = Materias::findOrFail($id);
+        $materias = $grupo?->grados?->materias ?? collect();
+        $alumnos = $grupo->alumnos;
+
+        // Obtener calificaciones de los alumnos para esta materia
+        $calificaciones = Calificaciones::whereIn('alumno_id', $alumnos->pluck('id'))
+            ->where('materia_id', $materia->id)
+            ->get()
+            ->groupBy('alumno_id'); // Agrupar por alumno
+
+        return view('profesor.materia', compact('materia', 'alumnos', 'calificaciones', 'materias'));
+    }
+
+    public function editarCalificacion($materiaId, $alumnoId)
+    {
+        $profesor = Auth::user()->profesor;
+        $materia = Materias::findOrFail($materiaId);
+        $alumno = Alumnos::findOrFail($alumnoId);
+
+        // Buscar calificación existente
+        $calificacion = Calificaciones::where('alumno_id', $alumnoId)
+                        ->where('materia_id', $materiaId)
+                        ->first();
+
+        return view('profesor.editar-calificacion', compact('materia', 'alumno', 'calificacion'));
+    }
+
+    public function actualizarCalificacion(Request $request, $materiaId, $alumnoId)
+    {
+        $request->validate([
+            'calificacion' => 'nullable|numeric|min:0|max:10',
+        ]);
+
+        $calificacion = Calificaciones::updateOrCreate(
+            ['alumno_id' => $alumnoId, 'materia_id' => $materiaId],
+            ['calificacion' => $request->calificacion]
+        );
+
+        return redirect()->route('profesor.materia', $materiaId)->with('success', 'Calificación actualizada');
+    }
 
 
     public function show($id)

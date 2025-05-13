@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Panel')</title>
+    <title>@yield('title', 'Inicio')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen">
@@ -41,30 +41,8 @@
         </div>
     </nav>
 
-    {{-- Layout con Sidebar --}}
-    <div x-data="{ sidebarOpen: window.innerWidth >= 768 }" class="flex flex-col md:flex-row min-h-screen">
-        {{-- Sidebar dinámico --}}
-        <aside class="w-full md:w-1/4 lg:w-1/5 border-r p-6 bg-white/80"
-            x-show="sidebarOpen"
-            @resize.window="sidebarOpen = window.innerWidth >= 768"
-            x-transition>
-            {{-- Contenido dinámico --}}
-            @yield('sidebar')
-        </aside>
-
-        {{-- Botón para móvil --}}
-        <div class="md:hidden p-4">
-            <button @click="sidebarOpen = !sidebarOpen" class="bg-blue-600 text-white px-4 py-2 rounded shadow">
-                <span x-show="!sidebarOpen">📂 Ver Menú</span>
-                <span x-show="sidebarOpen">❌ Cerrar</span>
-            </button>
-        </div>
-
-        {{-- Contenido --}}
-        <main class="flex-1 p-6 bg-white/50">
-            @yield('content')
-        </main>
-    </div>
-
+    <main>
+        @yield('content')
+    </main>
 </body>
 </html>

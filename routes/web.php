@@ -27,6 +27,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/profesor', [ProfesorController::class, 'home'])->name('profesor.home');
+    Route::get('/profesor/materia/{id}', [ProfesorController::class, 'verMateria'])->name('profesor.materia');
+    Route::get('/profesor/materia/{materia}/alumno/{alumno}/editar', [ProfesorController::class, 'editarCalificacion'])->name('profesor.calificacion.edit');
+    Route::post('/profesor/materia/{materia}/alumno/{alumno}/actualizar', [ProfesorController::class, 'actualizarCalificacion'])->name('profesor.calificacion.update');
 
 
     Route::get('/padre', [PadreController::class, 'index'])->name('padre.home');

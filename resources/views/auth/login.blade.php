@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.init')
 
 @section('title', 'Iniciar sesión')
 
