@@ -3,61 +3,26 @@
 @section('title', 'Materias')
 
 @section('content')
-@if(session('error'))
-    <div
-        x-data="{ show: true }"
-        x-init="setTimeout(() => show = false, 5000)"
-        x-show="show"
-        x-transition:leave="transition ease-in duration-500"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="mb-4 flex bg-red-100 border-l-8 border-red-500 text-red-700 px-4 py-3 rounded"
-    >
-        <!-- Contenido del mensaje -->
-        <div class="flex-1 pl-4">
-            <strong>¡Ups!</strong> {{ session('error') }}
-        </div>
-    </div>
-@endif
+@include('partials.alerts')
+    <h2 class="text-2xl font-bold mb-4">Materias {{ $status }}</h2>
 
-@if(session('success'))
-    <div
-        x-data="{ show: true }"
-        x-init="setTimeout(() => show = false, 5000)"
-        x-show="show"
-        x-transition:leave="transition ease-in duration-500"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="mb-4 bg-green-200 border-l-8 border-green-500 text-green-700 px-4 py-3 rounded"
-    >
-        <!-- Contenido del mensaje -->
-        <div class="flex-1 pl-4">
-            <strong>¡Éxito!</strong> {{ session('success') }}
-        </div>
-    </div>
-@endif
-    {{-- Aquí solo va el contenido de materias sin sidebar --}}
-    <h2 class="text-2xl font-bold mb-4">📘 Materias {{ $status }}</h2>
-
-        <!-- Formulario de búsqueda -->
     <div class="mb-4">
-        <form action="{{ route('materias.index') }}" method="GET"
-        class="flex items-center space-x-2">
+        <form action="{{ route('grupos.index') }}" method="GET" class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
             <input
                 type="text"
                 name="search"
                 value="{{ request('search') }}"
-                placeholder="Buscar por nombre de la materia"
-                class="px-4 py-2 border rounded w-full"
+                placeholder="Buscar materia"
+                class="px-4 py-2 border rounded w-full sm:w-auto flex-1"
             />
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">Buscar</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800 w-full sm:w-auto">Buscar</button>
         </form>
     </div>
 
-    <div class="mb-4 space-x-2">
-        <a href="{{ route('materias.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded">Ver Activas</a>
-        <a href="{{ route('materias.inactivas') }}" class="px-4 py-2 bg-gray-600 text-white rounded">Ver Inactivas</a>
-        <a href="{{ route('materias.create') }}" class="px-4 py-2 bg-green-600 text-white rounded">Agregar Materia</a>
+    <div class="mb-4 space-x-2 flex flex-wrap">
+        <a href="{{ route('materias.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded mb-2">Ver Activas</a>
+        <a href="{{ route('materias.inactivas') }}" class="px-4 py-2 bg-gray-600 text-white rounded mb-2">Ver Inactivas</a>
+        <a href="{{ route('materias.create') }}" class="px-4 py-2 bg-green-600 text-white rounded mb-2">Agregar Materia</a>
     </div>
 
     <div class="mb-4 bg-white/50 shadow rounded p-6">

@@ -18,16 +18,22 @@ class GradoController extends Controller
 
     public function create()
     {
-        return view('admin.grados.create');
+        $materias = \App\Models\Materias::all();
+        return view('admin.grados.create', compact('materias'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+         $request->validate([
             'nombre_grado' => 'required|string|max:255',
+            'materias' => 'array',
         ]);
 
-        Grados::create($request->only('nombre_grado'));
+        $grado = Grados::create($request->only('nombre_grado'));
+
+        if ($request->has('materias')) {
+            $grado->materias()->sync($request->materias);
+        }
 
         return redirect()->route('grados.index')->with('success', 'Grado creado correctamente.');
     }
@@ -35,16 +41,22 @@ class GradoController extends Controller
 
     public function edit(Grados $grado)
     {
-        return view('admin.grados.edit', compact('grado'));
+        $materias = \App\Models\Materias::all();
+        $materiasAsignadas = $grado->materias->pluck('id')->toArray();
+
+        return view('admin.grados.edit', compact('grado', 'materias', 'materiasAsignadas'));
     }
 
     public function update(Request $request, Grados $grado)
     {
-        $request->validate([
+         $request->validate([
             'nombre_grado' => 'required|string|max:255',
+            'materias' => 'array',
         ]);
 
         $grado->update($request->only('nombre_grado'));
+
+        $grado->materias()->sync($request->materias ?? []);
 
         return redirect()->route('grados.index')->with('success', 'Grado actualizado correctamente.');
     }

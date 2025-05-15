@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ciclos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

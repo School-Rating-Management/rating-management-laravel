@@ -75,7 +75,17 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::delete('/grupos/{id}/delete', [GrupoController::class, 'forceDelete'])->name('grupos.forceDelete');
     Route::resource('grupos', GrupoController::class);
 
+    Route::get('/ciclos/inactivos', [CicloController::class, 'inactivos'])->name('ciclos.inactivos');
+    Route::post('/ciclos/{id}/restore', [CicloController::class, 'restore'])->name('ciclos.restore');
+    Route::delete('/ciclos/{id}/delete', [CicloController::class, 'forceDelete'])->name('ciclos.forceDelete');
     Route::resource('ciclos', CicloController::class);
+
+
+    // Alumnos
+    Route::get('/alumnos/inactivos', [AlumnoController::class, 'inactivos'])->name('alumnos.inactivos');
+    Route::post('/alumnos/{id}/restore', [AlumnoController::class, 'restore'])->name('alumnos.restore');
+    Route::delete('/alumnos/{id}/delete', [AlumnoController::class, 'forceDelete'])->name('alumnos.forceDelete');
+    Route::resource('alumnos', AlumnoController::class);
 });
 
 

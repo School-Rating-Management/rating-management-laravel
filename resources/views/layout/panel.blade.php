@@ -49,14 +49,15 @@
             x-show="sidebarOpen"
             @resize.window="sidebarOpen = window.innerWidth >= 768"
             x-transition>
-            <h2 class="text-xl font-bold mb-4 text-blue-800">🔧 Administración</h2>
+            <h2 class="text-xl font-bold mb-4 text-blue-800">Administración</h2>
             <nav>
-                <ul class="space-y-3">
-                    <li><a href="{{ route('materias.index') }}" class="block text-blue-700 hover:underline">📘 Materias</a></li>
-                    <li><a href="{{ route('profesores.index') }}" class="block text-blue-700 hover:underline">👨‍🏫 Profesores</a></li>
-                    <li><a href="{{ route('ciclos.index') }}" class="block text-blue-700 hover:underline">📅 Ciclos</a></li>
-                    <li><a href="{{ route('grados.index') }}" class="block text-blue-700 hover:underline"> Grados </a></li>
-                    <li><a href="{{ route('grupos.index') }}" class="block text-blue-700 hover:underline"> Grupos </a></li>
+                <ul class="space-y-1">
+                    <li><a href="{{ route('materias.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Materias</a></li>
+                    <li><a href="{{ route('profesores.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Profesores</a></li>
+                    <li><a href="{{ route('ciclos.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Ciclos</a></li>
+                    <li><a href="{{ route('grados.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Grados </a></li>
+                    <li><a href="{{ route('grupos.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Grupos </a></li>
+                    <li><a href="{{ route('alumnos.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Alumnos </a></li>
                 </ul>
             </nav>
         </aside>
