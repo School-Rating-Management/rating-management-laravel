@@ -71,5 +71,8 @@
             <p class="text-gray-500">No hay profesores {{ $status }}.</p>
         @endforelse
     </div>
+    <div class="mt-4 max-md:flex justify-center">
+        {{ $profesores->onEachSide(1)->links('vendor.pagination.tailwind') }}
+    </div>
 </div>
 @endsection

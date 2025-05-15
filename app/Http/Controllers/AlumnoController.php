@@ -31,10 +31,13 @@ class AlumnoController extends Controller
         $query = $request->input('search');
 
         // Realiza la búsqueda en el modelo Alumnos
-        $alumnos = Alumnos::where('nombre', 'LIKE', "%{$query}%")
-            ->orWhere('apellido', 'LIKE', "%{$query}%")
-            ->orWhere('curp', 'LIKE', "%{$query}%")
-            ->get();
+        $alumnos = Alumnos::when($query, function ($q) use ($query) {
+                    $q->where('nombre', 'LIKE', "%{$query}%")
+                    ->orWhere('apellido', 'LIKE', "%{$query}%")
+                    ->orWhere('curp', 'LIKE', "%{$query}%");
+                })
+                ->paginate(20) // <- Cambiar aquí
+                ->withQueryString(); // <- Conserva el search al paginar
 
         return view('admin.alumnos.index', compact('alumnos'))->with('status', 'activos');
     }
@@ -108,7 +111,7 @@ class AlumnoController extends Controller
 
     public function inactivos()
     {
-        $alumnos = Alumnos::onlyTrashed()->get();
+        $alumnos = Alumnos::onlyTrashed()->paginate(20);
         return view('admin.alumnos.index', [
             'alumnos' => $alumnos,
             'status' => 'inactivos',

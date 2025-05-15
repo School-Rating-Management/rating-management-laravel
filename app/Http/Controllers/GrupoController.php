@@ -14,7 +14,8 @@ class GrupoController extends Controller
         $grupos = Grupos::with(['profesor', 'grados'])
             ->when($request->search, function ($query, $search) {
                 return $query->where('nombre_grupo', 'like', "%$search%");
-            })->get();
+            })->paginate(10)
+            ->withQueryString(); // <- Conserva el search al paginar
 
         return view('admin.grupos.index', compact('grupos'))->with('status', 'activos');
     }
@@ -109,7 +110,8 @@ class GrupoController extends Controller
 
     public function inactivas()
     {
-        $grupos = Grupos::onlyTrashed()->with(['profesor', 'grados'])->get();
+        $grupos = Grupos::onlyTrashed()->with(['profesor', 'grados'])->paginate(10)
+            ->withQueryString(); // <- Conserva el search al paginar
         return view('admin.grupos.index', [
             'grupos' => $grupos,
             'status' => 'inactivos',

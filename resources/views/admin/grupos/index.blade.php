@@ -111,5 +111,9 @@
         <p class="text-center text-gray-500">No hay grupos {{ $status ?? '' }}.</p>
         @endforelse
     </div>
+
+    <div class="mt-4 max-md:flex justify-center">
+        {{ $grupos->onEachSide(1)->links('vendor.pagination.tailwind') }}
+    </div>
 </div>
 @endsection

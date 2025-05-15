@@ -108,13 +108,15 @@ class ProfesorController extends Controller
         $profesores = Profesores::when($search, function ($query) use ($search) {
             return $query->where('nombre', 'like', '%' . $search . '%')
                         ->orWhere('apellido', 'like', '%' . $search . '%');
-        })->get();
+        })->paginate(20)
+        ->withQueryString(); // <- Conserva el search al paginar
+
         return view('admin.profesores.index', compact('profesores'))->with('status', 'activos');
     }
 
     public function inactivos()
     {
-        $profesores = Profesores::onlyTrashed()->get(); // Inactivas
+        $profesores = Profesores::onlyTrashed()->paginate(20); // Inactivas
         return view('admin.profesores.index', compact('profesores'))->with('status', 'inactivos');
     }
 
