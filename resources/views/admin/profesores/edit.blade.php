@@ -35,7 +35,7 @@
                 Nombre
             </label>
             <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $profesor->nombre) }}"
-                class="shadow appearance-none border-2 border-white border-b-blue-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-b-blue-800 focus:shadow-outline">
+                class="appearance-none border-2 border-white border-b-blue-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-b-blue-800 focus:shadow-outline">
         </div>
 
         <div class="mb-4">
@@ -43,7 +43,7 @@
                 Apellido
             </label>
             <input type="text" name="apellido" id="apellido" value="{{ old('apellido', $profesor->apellido) }}"
-                class="shadow appearance-none border-2 border-white border-b-blue-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-b-blue-800 focus:shadow-outline">
+                class="appearance-none border-2 border-white border-b-blue-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-b-blue-800 focus:shadow-outline">
         </div>
 
 
@@ -58,7 +58,7 @@
 
                 {{-- Mostrar select con opción para quitar grupo, aunque no haya grupos disponibles --}}
                 <select name="grupo_id" id="grupo_id"
-                    class="block appearance-none w-full border-2 border-white border-b-blue-500 hover:border-b-blue-800 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline focus:border-b-blue-800">
+                    class="block appearance-none w-full border-2 border-white border-b-blue-500 hover:border-b-blue-800 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline focus:border-b-blue-800">
                     <option value="">-- Quitar Grupo --</option>
                     @foreach ($gruposDisponibles as $grupo)
                         <option value="{{ $grupo->id }}"
@@ -70,7 +70,7 @@
             @elseif ($gruposDisponibles->count() > 0)
                 {{-- Mostrar select solo si hay grupos disponibles y el profesor no tiene grupo --}}
                 <select name="grupo_id" id="grupo_id"
-                    class="block appearance-none w-full border-2 border-white border-b-blue-500 hover:border-b-blue-800 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline focus:border-b-blue-800">
+                    class="block appearance-none w-full border-2 border-white border-b-blue-500 hover:border-b-blue-800 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline focus:border-b-blue-800">
                     <option value="">-- Selecciona un grupo --</option>
                     @foreach ($gruposDisponibles as $grupo)
                     <option value="{{ $grupo->id }}"
