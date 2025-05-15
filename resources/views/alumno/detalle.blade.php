@@ -2,18 +2,27 @@
 
 @section('title', 'Detalle del Alumno')
 
+
+@section('sidebar')
+    @if ($rol === 'profesor')
+        <h2 class="text-xl font-bold mb-4 text-blue-800">Panel</h2>
+        <ul class="space-y-2">
+            <li class="border-l-4 border-blue-500 pl-2">
+                <a href="{{ route('profesor.home') }}" class="text-blue-700 hover:underline hover:bg-white/50 px-3 py-0.5 rounded-md">Panel inicial</a>
+            </li>
+            <hr>
+        </ul>
+    @elseif ($rol === 'padre')
+        <h2 class="text-xl font-bold mb-4 text-blue-800">Panel</h2>
+        <ul class="space-y-2">
+            <li class="border-l-4 border-blue-500 pl-2">
+                <a href="{{ route('padre.home') }}" class="text-blue-700 hover:underline hover:bg-white/50 px-3 py-0.5 rounded-md">Panel inicial</a>
+            </li>
+        </ul>
+    @endif
+@endsection
+
 @section('content')
-    {{-- breadcrumbs --}}
-    <div class="mb-4">
-        <nav class="flex items-center space-x-2 mb-4">
-            <a href="{{ $rol === 'padre' ? route('padre.home') : route('profesor.home') }}"
-            class="text-cyan-50 hover:underline">
-            Panel del {{ $rol === 'padre' ? 'Padre o Tutor' : 'Profesor' }}
-            </a>
-            <span class="text-gray-500">/</span>
-            <span class="text-gray-700">Detalle del Alumno</span>
-        </nav>
-    </div>
 
     <div class="max-w-7xl mx-auto bg-white/60 p-6 rounded shadow">
         <h3 class="text-2xl font-bold mb-4">

@@ -3,13 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumnos;
+use App\Models\Ciclos;
+use App\Models\Grupos;
+use App\Models\Padres;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AlumnoController extends Controller
 {
+    use AuthorizesRequests;
     public function showAlumno($id) {
-        $alumno = Alumnos::with(['grupo', 'alumno', 'calificaciones.materia', 'historial.materia'])->findOrFail($id);
+    try {
+            $alumno = Alumnos::with(['grupo.grados', 'calificaciones.materia', 'historial.materia'])->findOrFail($id);
+
+            $this->authorize('view', $alumno);
+        } catch (AuthorizationException $e) {
+            return redirect()->route('welcome')
+                ->with('error', 'No tienes acceso para ver este alumno.');
+        }
+
         $isPadre = request()->is('padre/*');
         $rol = $isPadre ? 'padre' : 'profesor';
         return view('alumno.detalle', compact('alumno', 'rol'));
@@ -60,7 +74,10 @@ class AlumnoController extends Controller
 
     public function create()
     {
-        return view('admin.alumnos.create');
+        $gruposDisponibles = Grupos::with('grados')->get();
+        $ciclosDisponibles = Ciclos::all();
+        $padres = Padres::all();
+        return view('admin.alumnos.create', compact('gruposDisponibles', 'ciclosDisponibles', 'padres'));
     }
 
     /**
@@ -71,8 +88,12 @@ class AlumnoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'curp' => 'required|string|max:255'
+            'curp' => 'required|string|max:255',
+            'grupo_id' => 'nullable|exists:grupos,id',
+            'ciclo_id' => 'nullable|exists:ciclos,id',
+            'padre_id' => 'nullable|exists:padres,id',
         ]);
+
 
         Alumnos::create($request->all());
 
@@ -81,7 +102,10 @@ class AlumnoController extends Controller
 
     public function edit(Alumnos $alumno)
     {
-        return view('admin.alumnos.edit', compact('alumno'));
+        $gruposDisponibles = Grupos::with('grados')->get();
+        $ciclosDisponibles = Ciclos::all();
+        $padres = Padres::all();
+        return view('admin.alumnos.edit', compact('alumno', 'gruposDisponibles', 'ciclosDisponibles', 'padres'));
     }
 
     /**
@@ -91,10 +115,14 @@ class AlumnoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255'
+            'apellido' => 'required|string|max:255',
+            'curp' => 'required|string|max:255',
+            'grupo_id' => 'nullable|exists:grupos,id',
+            'ciclo_id' => 'nullable|exists:ciclos,id',
+            'padre_id' => 'nullable|exists:padres,id',
         ]);
 
-        $alumno->update($request->only('nombre'));
+        $alumno->update($request->only('nombre', 'apellido', 'curp', 'grupo_id', 'ciclo_id', 'padre_id'));
 
         return redirect()->route('alumnos.index')->with('success', 'Alumno actualizado correctamente.');
     }

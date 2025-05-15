@@ -58,6 +58,7 @@
                     <li><a href="{{ route('grados.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Grados </a></li>
                     <li><a href="{{ route('grupos.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Grupos </a></li>
                     <li><a href="{{ route('alumnos.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Alumnos </a></li>
+                    <li><a href="{{ route('padres.index') }}" class="block text-blue-700 p-1 rounded-md hover:bg-white/50 hover:underline"> Padres </a></li>
                 </ul>
             </nav>
         </aside>

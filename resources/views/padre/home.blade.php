@@ -2,6 +2,28 @@
 
 @section('title', 'Panel del Padre/Tutor')
 
+
+@section('sidebar')
+<ul class="space-y-2">
+    <h2 class="text-xl font-bold mb-4 text-blue-800">Panel</h2>
+    <li class="border-l-4 border-blue-500 pl-2">
+        <a href="{{ route('padre.home') }}" class="text-blue-700 hover:underline hover:bg-white/50 px-3 py-0.5 rounded-md">Panel inicial</a>
+    </li>
+    <hr>
+    <h2 class="text-xl font-bold mb-4 text-blue-800">Alumnos asignados</h2>
+        @forelse ($alumnos as $alum)
+            <li class="border-l-4 border-blue-500 pl-2">
+                <a href="#" class="text-blue-700 hover:underline hover:bg-white/50 px-3 py-0.5 rounded-md">
+                    {{ $alum->nombre }}
+                </a>
+            </li>
+            <hr>
+        @empty
+            <li class="text-gray-600">No hay materias asignadas.</li>
+        @endforelse
+    </ul>
+@endsection
+
 @section('content')
     <div>
         <nav class="flex items-center space-x-2 mb-4">

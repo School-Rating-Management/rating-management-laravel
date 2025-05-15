@@ -44,7 +44,7 @@
     {{-- Layout con Sidebar --}}
     <div x-data="{ sidebarOpen: window.innerWidth >= 768 }" class="flex flex-col md:flex-row min-h-screen">
         {{-- Sidebar dinámico --}}
-        <aside class="w-full md:w-1/4 lg:w-1/5 border-r p-6 bg-white/80"
+        <aside class="w-full md:w-1/4 lg:w-1/5 border-r p-6 "
             x-show="sidebarOpen"
             @resize.window="sidebarOpen = window.innerWidth >= 768"
             x-transition>

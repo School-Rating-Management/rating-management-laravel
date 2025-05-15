@@ -38,7 +38,7 @@
             </div>
             <div>
                 <strong class="text-gray-700">Grado Asignado:</strong>
-                @if($alumno->grupo->grados)
+                @if($alumno->grupo && $alumno->grupo->grados)
                     <p>{{ $alumno->grupo->grados->nombre_grado }}</p>
                 @else
                     <p class="text-gray-400 italic">Aun no hay un grado asignado</p>
@@ -61,7 +61,7 @@
 
         <div>
             <strong class="text-gray-700">Calificaciones asignadas:</strong>
-            @if($alumno->calificaciones)
+            @if($alumno->calificaciones->isNotEmpty())
                 @foreach ($alumno->calificaciones as $calificacion )
                     <div class="flex justify-between p-1">
                         <p>{{ $calificacion->materia->nombre_materia }}</p>

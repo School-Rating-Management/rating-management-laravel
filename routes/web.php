@@ -8,6 +8,7 @@ use App\Http\Controllers\GradoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\Padre\PadreController;
+use App\Http\Controllers\PadreAdminController;
 use App\Http\Controllers\ProfesorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -86,6 +87,14 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/alumnos/{id}/restore', [AlumnoController::class, 'restore'])->name('alumnos.restore');
     Route::delete('/alumnos/{id}/delete', [AlumnoController::class, 'forceDelete'])->name('alumnos.forceDelete');
     Route::resource('alumnos', AlumnoController::class);
+
+    // Padres
+    Route::get('/padres/inactivos', [PadreAdminController::class, 'inactivos'])->name('padres.inactivos');
+    Route::post('/padres/{id}/restore', [PadreAdminController::class, 'restore'])->name('padres.restore');
+    Route::delete('/padres/{id}/delete', [PadreAdminController::class, 'forceDelete'])->name('padres.forceDelete');
+    Route::resource('padres', PadreAdminController::class);
+    Route::post('/padres/{padre}/alumnos', [PadreAdminController::class, 'attachAlumno'])->name('padres.alumnos.attach');
+    Route::delete('/padres/{padre}/alumnos/{alumno}', [PadreAdminController::class, 'detachAlumno'])->name('padres.alumnos.detach');
 });
 
 

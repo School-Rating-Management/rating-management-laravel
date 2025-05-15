@@ -31,28 +31,49 @@
                    class="w-full px-4 py-2 border rounded" required>
         </div>
 
-        {{-- <div>
-            <label for="profesor_id" class="block font-semibold">Profesor Asignado</label>
-            <select name="profesor_id" id="profesor_id" class="w-full px-4 py-2 border rounded">
-                <option value="">Sin profesor</option>
-                @foreach ($profesores as $profesor)
-                    <option value="{{ $profesor->id }}" {{ $grupo->profesor_id == $profesor->id ? 'selected' : '' }}>
-                        {{ $profesor->nombre }}
+        <div>
+            <label for="grupo_id" class="block font-semibold">Grupo (opcional)</label>
+            <select name="grupo_id" id="grupo_id" class="w-full px-4 py-2 border rounded">
+                <option value="">-- Sin grupo --</option>
+                @foreach($gruposDisponibles as $grupo)
+                    <option value="{{ $grupo->id }}" {{ $alumno->grupo_id == $grupo->id ? 'selected' : '' }}>
+                        {{ $grupo->nombre_grupo }}- {{ $grupo->grados->nombre_grado ?? 'Sin grado'}}
                     </option>
                 @endforeach
             </select>
-        </div> --}}
+        </div>
 
-        {{-- <div>
-            <label for="grado_id" class="block font-semibold">Grado</label>
-            <select name="grado_id" id="grado_id" class="w-full px-4 py-2 border rounded" required>
-                @foreach ($grados as $grado)
-                    <option value="{{ $grado->id }}" {{ $grupo->grado_id == $grado->id ? 'selected' : '' }}>
-                        {{ $grado->nombre_grado }}
+        <div>
+            <label for="ciclo_id" class="block font-semibold">Ciclo Escolar (opcional)</label>
+            <select name="ciclo_id" id="ciclo_id" class="w-full px-4 py-2 border rounded">
+                <option value="">-- Sin ciclo --</option>
+                @foreach($ciclosDisponibles as $ciclo)
+                    <option value="{{ $ciclo->id }}" {{ $alumno->ciclo_id == $ciclo->id ? 'selected' : '' }}>
+                        {{ $ciclo->nombre }}
                     </option>
                 @endforeach
             </select>
-        </div> --}}
+        </div>
+
+        <div class="mb-4">
+            <label for="padre_id" class="block text-sm font-medium text-gray-700">Padre (opcional)</label>
+            <input
+                type="text"
+                id="buscar_padre"
+                placeholder="Buscar por nombre o apellido"
+                class="mt-1 block w-full border-2 border-white border-b-blue-500 focus:border-b-cyan-300 focus:outline-none"
+            >
+            <select name="padre_id" id="padre_id"
+                class="mt-2 block w-full border-2 border-white border-b-blue-500 rounded shadow-sm focus:border-b-blue-800 focus:outline-none">
+                <option value="">-- Sin padre --</option>
+                @foreach($padres as $padre)
+                    <option value="{{ $padre->id }}"
+                        {{ old('padre_id', isset($alumno) ? $alumno->padre_id : '') == $padre->id ? 'selected' : '' }}>
+                        {{ $padre->nombre }} {{ $padre->apellido }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
         <div class="flex justify-end">
             <a href="{{ route('alumnos.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded mr-2">Cancelar</a>

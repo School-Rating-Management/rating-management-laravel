@@ -61,6 +61,7 @@ class ProfesorController extends Controller
     public function editarCalificacion($materiaId, $alumnoId)
     {
         $profesor = Auth::user()->profesor;
+        $materias = Materias::all();
         $materia = Materias::findOrFail($materiaId);
         $alumno = Alumnos::findOrFail($alumnoId);
 
@@ -69,7 +70,7 @@ class ProfesorController extends Controller
                         ->where('materia_id', $materiaId)
                         ->first();
 
-        return view('profesor.editar-calificacion', compact('materia', 'alumno', 'calificacion'));
+        return view('profesor.editar-calificacion', compact('materia', 'alumno', 'calificacion', 'materias'));
     }
 
     public function actualizarCalificacion(Request $request, $materiaId, $alumnoId)
