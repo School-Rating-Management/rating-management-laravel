@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Panel Administrativo')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @livewireStyles --}}
 </head>
 <body class="bg-gradient-to-r from-cyan-500 to-blue-500 min-h-screen">
 
@@ -77,5 +78,6 @@
             @yield('content')
         </main>
     </div>
+{{-- @livewireScripts --}}
 </body>
 </html>

@@ -55,25 +55,13 @@
             </select>
         </div>
 
-        <div class="mb-4">
-            <label for="padre_id" class="block text-sm font-medium text-gray-700">Padre (opcional)</label>
-            <input
-                type="text"
-                id="buscar_padre"
-                placeholder="Buscar por nombre o apellido"
-                class="mt-1 block w-full border-2 border-white border-b-blue-500 focus:border-b-cyan-300 focus:outline-none"
-            >
-            <select name="padre_id" id="padre_id"
-                class="mt-2 block w-full border-2 border-white border-b-blue-500 rounded shadow-sm focus:border-b-blue-800 focus:outline-none">
-                <option value="">-- Sin padre --</option>
-                @foreach($padres as $padre)
-                    <option value="{{ $padre->id }}"
-                        {{ old('padre_id', isset($alumno) ? $alumno->padre_id : '') == $padre->id ? 'selected' : '' }}>
-                        {{ $padre->nombre }} {{ $padre->apellido }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+        {{-- <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Buscar padre</label>
+            @livewire('buscar-padre')
+        </div> --}}
+
+        {{-- Añadir el campo del padre, que tenga un input que haga
+        bsuqueda por nombre o apellido y despligue una lista de los padres con la coincidencia --}}
 
         <div class="flex justify-end">
             <a href="{{ route('alumnos.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded mr-2">Cancelar</a>
