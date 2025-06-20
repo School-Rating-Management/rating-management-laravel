@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\AlumnosImport;
 use App\Models\Alumnos;
 use App\Models\Ciclos;
 use App\Models\Grupos;
@@ -10,6 +11,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AlumnoController extends Controller
 {
@@ -159,4 +162,54 @@ class AlumnoController extends Controller
         $alumno->forceDelete();
         return redirect()->route('alumnos.inactivos')->with('success', 'Alumno eliminado permanentemente.');
     }
+
+    // public function importarExcel(Request $request)
+    // {
+    //     $request->validate([
+    //         'archivo' => 'required|mimes:xlsx,xls,csv|max:5120', // 5MB máximo
+    //     ]);
+
+    //     try {
+    //         $import = new AlumnosImport();
+    //         Excel::import($import, $request->file('archivo'));
+
+    //         $importedCount = count($import->getImported());
+    //         $updatedCount = count($import->getUpdated());
+    //         $errorCount = count($import->failures()) + count($import->errors());
+
+    //         $message = sprintf(
+    //             "Importación completada: %d nuevos alumnos, %d actualizados.",
+    //             $importedCount,
+    //             $updatedCount
+    //         );
+
+    //         if ($errorCount > 0) {
+    //             $message .= " Hubo {$errorCount} errores.";
+    //         }
+    //         foreach ($import->failures() as $failure) {
+    //            Log::warning("Fallo en fila {$failure->row()}: " . json_encode($failure->errors()));
+    //         }
+
+    //         if (count($import->failures()) > 0 || count($import->errors()) > 0) {
+    //             $errorCount = count($import->failures()) + count($import->errors());
+    //             $successCount = $import->getRowCount() - $errorCount;
+
+    //             $message = "Se importaron {$successCount} alumnos. Hubo {$errorCount} errores.";
+
+    //             return back()
+    //                 ->with('success', $message)
+    //                 ->with('import_errors', $import->failures())
+    //                 ->with('import_warnings', $import->errors());
+    //         }
+
+    //         return back()->with('success', $message);
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Error al importar: '.$e->getMessage());
+    //     }
+    // }
+
+    // public function importar()
+    // {
+    //     return view('admin.alumnos.importar');
+    // }
 }
