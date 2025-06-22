@@ -53,7 +53,7 @@
                 <option value="">-- Sin grupo --</option>
                 @foreach($gruposDisponibles as $grupo)
                     <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                        {{ $grupo->nombre_grupo }} - {{ $grupo->grado->nombre_grado ?? 'Sin grado' }}
+                        {{ $grupo->nombre_grupo }}- {{ $grupo->grados->nombre_grado ?? 'Sin grado'}}
                     </option>
                 @endforeach
             </select>
