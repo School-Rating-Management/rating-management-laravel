@@ -27,6 +27,20 @@
         <a href="{{ route('alumnos.create') }}" class="px-4 py-2 bg-green-600 text-white rounded mb-2">Agregar Alumno</a>
     </div>
 
+    {{-- <div class="mb-4"> --}}
+        {{-- <form action="{{ route('alumnos.importar') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
+            @csrf
+            <input type="file" name="archivo" required class="border rounded p-2 w-full sm:w-auto">
+            <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-800">📥 Importar Excel</button>
+        </form> --}}
+        {{-- a ref to view to importing --}}
+        {{-- <a href="{{ route('alumnos.importar.form') }}" class="px-4 py-2 bg-purple-600 text-white rounded mb-2">
+            📥 Importar Excel
+        </a>
+    </div> --}}
+
+
+
     <div class="mb-4 bg-white/50 shadow rounded p-6">
 
         <div class="hidden md:grid grid-cols-12 font-semibold text-gray-700 border-b pb-2 mb-2">
@@ -64,7 +78,7 @@
                         </form>
                     @else
                         <a href="{{ route('alumnos.edit', $alumno->id) }}" class="text-blue-600 hover:underline" title="Editar">✏️ Editar</a>
-                        <form action="{{ route('alumnos.destroy', $alumno->id) }}" method="POST" onsubmit="return confirm('¿Desactivar este profesor?')">
+                        <form action="{{ route('alumnos.destroy', $alumno->id) }}" method="POST" onsubmit="return confirm('¿Desactivar este alumno?')">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-600 hover:underline" title="Desactivar">🗑️ Desactivar</button>
