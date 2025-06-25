@@ -7,7 +7,7 @@
     <h2 class="text-2xl font-bold mb-4">Materias {{ $status }}</h2>
 
     <div class="mb-4">
-        <form action="{{ route('grupos.index') }}" method="GET" class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
+        <form action="{{ route('materias.index') }}" method="GET" class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
             <input
                 type="text"
                 name="search"
