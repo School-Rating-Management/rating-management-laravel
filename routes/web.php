@@ -82,6 +82,9 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('ciclos', CicloController::class);
 
 
+    // Route::get('/alumnos/importar', [AlumnoController::class, 'importar'])->name('alumnos.importar.form');
+    // Route::post('/alumnos/importar', [AlumnoController::class, 'importarExcel'])->name('alumnos.importar');
+
     // Alumnos
     Route::get('/alumnos/inactivos', [AlumnoController::class, 'inactivos'])->name('alumnos.inactivos');
     Route::post('/alumnos/{id}/restore', [AlumnoController::class, 'restore'])->name('alumnos.restore');
